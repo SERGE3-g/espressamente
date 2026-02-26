@@ -13,7 +13,7 @@ interface FilterBarProps {
   label: string;
 }
 
-export function FilterBar({ options, paramName, label }: FilterBarProps) {
+export function FilterBar({ options, paramName, label: _label }: FilterBarProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
