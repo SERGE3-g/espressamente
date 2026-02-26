@@ -1,0 +1,33 @@
+# ── Java / Maven ──
+backend/target/
+backend/*.jar
+backend/*.class
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# ── Node / Next.js ──
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env.local
+
+# ── IDE ──
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+
+# ── OS ──
+.DS_Store
+Thumbs.db
+
+# ── Env ──
+.env
+.env.local
+.env.production
+
+# ── Uploads locali ──
+backend/uploads/
+
+# ── Docker volumes ──
+docker/data/

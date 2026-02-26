@@ -1,0 +1,321 @@
+[
+  {
+    "original": "IMG_0227.jpeg",
+    "name": "biglietto-retro",
+    "category": "brand",
+    "alt": "Biglietto da visita Espressamente - contatti e sedi",
+    "use": [
+      "contatti",
+      "chi-siamo"
+    ],
+    "original_dimensions": "1500x2000",
+    "original_size_kb": 436,
+    "files": {
+      "large": {
+        "path": "brand/biglietto-retro-large.jpg",
+        "dimensions": "1440x1920",
+        "size_kb": 369
+      },
+      "medium": {
+        "path": "brand/biglietto-retro-medium.jpg",
+        "dimensions": "600x800",
+        "size_kb": 91
+      },
+      "thumbnail": {
+        "path": "brand/biglietto-retro-thumbnail.jpg",
+        "dimensions": "300x400",
+        "size_kb": 28
+      }
+    }
+  },
+  {
+    "original": "IMG_0228.jpeg",
+    "name": "capsule-kimbo-pompei",
+    "category": "prodotti",
+    "alt": "Capsule Kimbo Pompei 100pz Lavazza A Modo Mio",
+    "use": [
+      "prodotti",
+      "gallery"
+    ],
+    "original_dimensions": "1500x2000",
+    "original_size_kb": 345,
+    "files": {
+      "large": {
+        "path": "prodotti/capsule-kimbo-pompei-large.jpg",
+        "dimensions": "1440x1920",
+        "size_kb": 319
+      },
+      "medium": {
+        "path": "prodotti/capsule-kimbo-pompei-medium.jpg",
+        "dimensions": "600x800",
+        "size_kb": 85
+      },
+      "thumbnail": {
+        "path": "prodotti/capsule-kimbo-pompei-thumbnail.jpg",
+        "dimensions": "300x400",
+        "size_kb": 29
+      }
+    }
+  },
+  {
+    "original": "IMG_0230.jpeg",
+    "name": "biglietto-fronte",
+    "category": "brand",
+    "alt": "Biglietto Espressamente Coffee - Concessionario illy e Mokador",
+    "use": [
+      "chi-siamo"
+    ],
+    "original_dimensions": "2000x1500",
+    "original_size_kb": 612,
+    "files": {
+      "large": {
+        "path": "brand/biglietto-fronte-large.jpg",
+        "dimensions": "1920x1440",
+        "size_kb": 513
+      },
+      "medium": {
+        "path": "brand/biglietto-fronte-medium.jpg",
+        "dimensions": "800x600",
+        "size_kb": 116
+      },
+      "thumbnail": {
+        "path": "brand/biglietto-fronte-thumbnail.jpg",
+        "dimensions": "400x300",
+        "size_kb": 34
+      }
+    }
+  },
+  {
+    "original": "IMG_0231.jpeg",
+    "name": "cialde-biancaffe-arabica",
+    "category": "prodotti",
+    "alt": "Cialde ESE Biancaffe Arabica 50pz",
+    "use": [
+      "prodotti",
+      "gallery"
+    ],
+    "original_dimensions": "1500x2000",
+    "original_size_kb": 615,
+    "files": {
+      "large": {
+        "path": "prodotti/cialde-biancaffe-arabica-large.jpg",
+        "dimensions": "1440x1920",
+        "size_kb": 593
+      },
+      "medium": {
+        "path": "prodotti/cialde-biancaffe-arabica-medium.jpg",
+        "dimensions": "600x800",
+        "size_kb": 135
+      },
+      "thumbnail": {
+        "path": "prodotti/cialde-biancaffe-arabica-thumbnail.jpg",
+        "dimensions": "300x400",
+        "size_kb": 40
+      }
+    }
+  },
+  {
+    "original": "IMG_0232.jpeg",
+    "name": "negozio-panoramica",
+    "category": "negozio",
+    "alt": "Interno negozio Espressamente Coffee",
+    "use": [
+      "hero",
+      "chi-siamo",
+      "gallery"
+    ],
+    "original_dimensions": "1500x2000",
+    "original_size_kb": 597,
+    "files": {
+      "large": {
+        "path": "negozio/negozio-panoramica-large.jpg",
+        "dimensions": "1440x1920",
+        "size_kb": 589
+      },
+      "medium": {
+        "path": "negozio/negozio-panoramica-medium.jpg",
+        "dimensions": "600x800",
+        "size_kb": 141
+      },
+      "thumbnail": {
+        "path": "negozio/negozio-panoramica-thumbnail.jpg",
+        "dimensions": "300x400",
+        "size_kb": 42
+      }
+    }
+  },
+  {
+    "original": "IMG_0234.jpeg",
+    "name": "negozio-bancone",
+    "category": "negozio",
+    "alt": "Bancone Espressamente con Borbone e Kimbo",
+    "use": [
+      "chi-siamo",
+      "gallery"
+    ],
+    "original_dimensions": "1500x2000",
+    "original_size_kb": 570,
+    "files": {
+      "large": {
+        "path": "negozio/negozio-bancone-large.jpg",
+        "dimensions": "1440x1920",
+        "size_kb": 553
+      },
+      "medium": {
+        "path": "negozio/negozio-bancone-medium.jpg",
+        "dimensions": "600x800",
+        "size_kb": 130
+      },
+      "thumbnail": {
+        "path": "negozio/negozio-bancone-thumbnail.jpg",
+        "dimensions": "300x400",
+        "size_kb": 39
+      }
+    }
+  },
+  {
+    "original": "IMG_0235.jpeg",
+    "name": "negozio-scaffali-mokador",
+    "category": "negozio",
+    "alt": "Scaffali Mokador DIVA e Caffe d'Italia",
+    "use": [
+      "gallery",
+      "prodotti"
+    ],
+    "original_dimensions": "1500x2000",
+    "original_size_kb": 416,
+    "files": {
+      "large": {
+        "path": "negozio/negozio-scaffali-mokador-large.jpg",
+        "dimensions": "1440x1920",
+        "size_kb": 393
+      },
+      "medium": {
+        "path": "negozio/negozio-scaffali-mokador-medium.jpg",
+        "dimensions": "600x800",
+        "size_kb": 96
+      },
+      "thumbnail": {
+        "path": "negozio/negozio-scaffali-mokador-thumbnail.jpg",
+        "dimensions": "300x400",
+        "size_kb": 31
+      }
+    }
+  },
+  {
+    "original": "IMG_0236.jpeg",
+    "name": "negozio-vetrina",
+    "category": "negozio",
+    "alt": "Vetrina Espressamente Coffee con offerte",
+    "use": [
+      "hero",
+      "chi-siamo",
+      "gallery"
+    ],
+    "original_dimensions": "1500x2000",
+    "original_size_kb": 458,
+    "files": {
+      "large": {
+        "path": "negozio/negozio-vetrina-large.jpg",
+        "dimensions": "1440x1920",
+        "size_kb": 442
+      },
+      "medium": {
+        "path": "negozio/negozio-vetrina-medium.jpg",
+        "dimensions": "600x800",
+        "size_kb": 117
+      },
+      "thumbnail": {
+        "path": "negozio/negozio-vetrina-thumbnail.jpg",
+        "dimensions": "300x400",
+        "size_kb": 39
+      }
+    }
+  },
+  {
+    "original": "IMG_0237.jpeg",
+    "name": "offerta-espresso-39euro",
+    "category": "offerte",
+    "alt": "Offerta macchina espresso 39 euro con kit degustazione",
+    "use": [
+      "offerte",
+      "home",
+      "banner"
+    ],
+    "original_dimensions": "1500x2000",
+    "original_size_kb": 497,
+    "files": {
+      "large": {
+        "path": "offerte/offerta-espresso-39euro-large.jpg",
+        "dimensions": "1440x1920",
+        "size_kb": 474
+      },
+      "medium": {
+        "path": "offerte/offerta-espresso-39euro-medium.jpg",
+        "dimensions": "600x800",
+        "size_kb": 121
+      },
+      "thumbnail": {
+        "path": "offerte/offerta-espresso-39euro-thumbnail.jpg",
+        "dimensions": "300x400",
+        "size_kb": 39
+      }
+    }
+  },
+  {
+    "original": "IMG_0222.jpeg",
+    "name": "logo-biglietto-fronte",
+    "category": "brand",
+    "alt": "Logo Espressamente con illy e Mokador",
+    "use": [
+      "chi-siamo"
+    ],
+    "original_dimensions": "952x1260",
+    "original_size_kb": 158,
+    "files": {
+      "large": {
+        "path": "brand/logo-biglietto-fronte-large.jpg",
+        "dimensions": "952x1260",
+        "size_kb": 167
+      },
+      "medium": {
+        "path": "brand/logo-biglietto-fronte-medium.jpg",
+        "dimensions": "604x800",
+        "size_kb": 78
+      },
+      "thumbnail": {
+        "path": "brand/logo-biglietto-fronte-thumbnail.jpg",
+        "dimensions": "302x400",
+        "size_kb": 19
+      }
+    }
+  },
+  {
+    "original": "IMG_0223.jpeg",
+    "name": "logo-biglietto-retro",
+    "category": "brand",
+    "alt": "Contatti Espressamente Formia e Minturno",
+    "use": [
+      "contatti"
+    ],
+    "original_dimensions": "952x1260",
+    "original_size_kb": 157,
+    "files": {
+      "large": {
+        "path": "brand/logo-biglietto-retro-large.jpg",
+        "dimensions": "952x1260",
+        "size_kb": 166
+      },
+      "medium": {
+        "path": "brand/logo-biglietto-retro-medium.jpg",
+        "dimensions": "604x800",
+        "size_kb": 79
+      },
+      "thumbnail": {
+        "path": "brand/logo-biglietto-retro-thumbnail.jpg",
+        "dimensions": "302x400",
+        "size_kb": 20
+      }
+    }
+  }
+]

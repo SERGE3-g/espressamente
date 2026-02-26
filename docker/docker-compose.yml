@@ -1,0 +1,56 @@
+name: espressamente
+
+services:
+  # ── PostgreSQL ──
+  postgres:
+    image: postgres:16-alpine
+    container_name: espressamente-db
+    environment:
+      POSTGRES_DB: espressamente_db
+      POSTGRES_USER: sergeguea
+      POSTGRES_PASSWORD: lamiapassword1
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sergeguea -d espressamente_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Redis (opzionale, per caching) ──
+  redis:
+    image: redis:7-alpine
+    container_name: espressamente-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+  # ── MinIO (S3-compatible storage locale) ──
+  minio:
+    image: minio/minio:latest
+    container_name: espressamente-minio
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    ports:
+      - "9095:9000"
+      - "9096:9001"
+    volumes:
+      - minio_data:/data
+
+  # ── MailHog (fake SMTP per sviluppo) ──
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: espressamente-mail
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+
+volumes:
+  postgres_data:
+  redis_data:
+  minio_data:

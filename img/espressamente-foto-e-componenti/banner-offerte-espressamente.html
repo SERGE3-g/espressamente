@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Espressamente Coffee — Offerte</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-dark: #1a0e08;
+      --brand: #2C1810;
+      --brand-mid: #5C3D2E;
+      --brand-accent: #C8956C;
+      --brand-light: #F5EDE4;
+      --cream: #FFF9F2;
+      --red: #C62828;
+      --gold: #D4A849;
+      --white: #FFFFFF;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    /* === BANNER CONTAINER === */
+    .banner {
+      width: 1080px;
+      max-width: 100%;
+      background: var(--white);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 
+        0 4px 6px -1px rgba(44, 24, 16, 0.06),
+        0 20px 60px -12px rgba(44, 24, 16, 0.15);
+    }
+
+    /* === HEADER === */
+    .banner-header {
+      background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand) 50%, var(--brand-mid) 100%);
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .banner-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(200, 149, 108, 0.15) 0%, transparent 70%);
+    }
+
+    .banner-header::after {
+      content: '☕';
+      position: absolute;
+      right: 2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 4rem;
+      opacity: 0.1;
+    }
+
+    .logo-area h1 {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--white);
+      letter-spacing: 0.02em;
+    }
+
+    .logo-area .tagline {
+      color: var(--brand-accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    .badge-concessionario {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 100px;
+      padding: 0.5rem 1.25rem;
+      color: var(--white);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      z-index: 1;
+    }
+
+    /* === PROMO STRIP === */
+    .promo-strip {
+      background: linear-gradient(90deg, var(--red), #E53935);
+      color: var(--white);
+      text-align: center;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .promo-strip .sparkle {
+      display: inline-block;
+      animation: sparkle 1.5s ease infinite;
+    }
+
+    @keyframes sparkle {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    /* === OFFERS SECTION === */
+    .offers {
+      padding: 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .offer-card {
+      background: var(--cream);
+      border-radius: 20px;
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
+    }
+
+    .offer-card:hover {
+      border-color: var(--brand-accent);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px -8px rgba(44, 24, 16, 0.15);
+    }
+
+    .offer-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle at top right, rgba(200, 149, 108, 0.2), transparent 70%);
+      border-radius: 0 20px 0 100%;
+    }
+
+    .offer-brand {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brand-mid);
+      margin-bottom: 0.75rem;
+    }
+
+    .offer-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--brand);
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .offer-desc {
+      font-size: 0.85rem;
+      color: var(--brand-mid);
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+    }
+
+    .offer-price-row {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .offer-price {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: var(--brand);
+      line-height: 1;
+    }
+
+    .offer-price-symbol {
+      font-size: 1.75rem;
+      color: var(--brand-accent);
+    }
+
+    .offer-bonus {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: linear-gradient(135deg, rgba(212, 168, 73, 0.15), rgba(200, 149, 108, 0.1));
+      border: 1px solid rgba(212, 168, 73, 0.3);
+      color: #8B6914;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.5rem 1rem;
+      border-radius: 100px;
+      letter-spacing: 0.02em;
+    }
+
+    .offer-bonus::before {
+      content: '🎁';
+      font-size: 0.9rem;
+    }
+
+    /* Second offer — Mokador variant */
+    .offer-card.mokador {
+      background: linear-gradient(135deg, var(--brand-dark), var(--brand));
+      color: var(--white);
+    }
+
+    .offer-card.mokador .offer-brand {
+      color: var(--brand-accent);
+    }
+
+    .offer-card.mokador .offer-title {
+      color: var(--white);
+    }
+
+    .offer-card.mokador .offer-desc {
+      color: rgba(255,255,255,0.7);
+    }
+
+    .offer-card.mokador .offer-price {
+      color: var(--white);
+    }
+
+    .offer-card.mokador .offer-price-symbol {
+      color: var(--gold);
+    }
+
+    .offer-card.mokador .offer-bonus {
+      background: rgba(212, 168, 73, 0.2);
+      border-color: rgba(212, 168, 73, 0.4);
+      color: var(--gold);
+    }
+
+    .mokador-prices {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .mokador-price-tag {
+      text-align: center;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.05);
+      flex: 1;
+    }
+
+    .mokador-price-tag .amount {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: var(--white);
+    }
+
+    .mokador-price-tag .label {
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* === FOOTER === */
+    .banner-footer {
+      padding: 1.5rem 2.5rem;
+      border-top: 1px solid rgba(44, 24, 16, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .footer-locations {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .location {
+      font-size: 0.75rem;
+      color: var(--brand-mid);
+      line-height: 1.5;
+    }
+
+    .location strong {
+      display: block;
+      color: var(--brand);
+      font-weight: 700;
+      margin-bottom: 0.15rem;
+    }
+
+    .footer-contact {
+      text-align: right;
+    }
+
+    .footer-contact .phone {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--brand);
+    }
+
+    .footer-contact .social {
+      font-size: 0.7rem;
+      color: var(--brand-accent);
+      font-weight: 600;
+    }
+
+    /* === RESPONSIVE === */
+    @media (max-width: 768px) {
+      .banner { border-radius: 16px; }
+      .offers { grid-template-columns: 1fr; padding: 1.5rem; }
+      .banner-header { padding: 1.5rem; flex-direction: column; gap: 1rem; align-items: flex-start; }
+      .banner-footer { flex-direction: column; text-align: center; }
+      .footer-locations { flex-direction: column; gap: 0.75rem; }
+      .footer-contact { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="banner">
+  <!-- Header -->
+  <div class="banner-header">
+    <div class="logo-area">
+      <h1>espressamente</h1>
+      <p class="tagline">coffee · formia · minturno</p>
+    </div>
+    <div class="badge-concessionario">
+      Concessionario di zona illy · Mokador
+    </div>
+  </div>
+
+  <!-- Promo Strip -->
+  <div class="promo-strip">
+    <span class="sparkle">✨</span>
+    L'Offerta Continua — Macchine Espresso a Prezzi Imperdibili
+    <span class="sparkle">✨</span>
+  </div>
+
+  <!-- Offers -->
+  <div class="offers">
+    <!-- Caffè d'Italia 39€ -->
+    <div class="offer-card">
+      <div class="offer-brand">Caffè d'Italia</div>
+      <div class="offer-title">Il Tuo Espresso<br>a Soli</div>
+      <div class="offer-price-row">
+        <div class="offer-price">39<span class="offer-price-symbol">€</span></div>
+      </div>
+      <p class="offer-desc">
+        Macchina espresso compatta in 3 colori.<br>
+        Perfetta per casa, ufficio e viaggio.
+      </p>
+      <div class="offer-bonus">Kit Degustazione in Omaggio</div>
+    </div>
+
+    <!-- Mokador machines -->
+    <div class="offer-card mokador">
+      <div class="offer-brand">Mokador · 100% Straordinario</div>
+      <div class="offer-title">Macchine Mokador<br>a partire da</div>
+      <div class="mokador-prices">
+        <div class="mokador-price-tag">
+          <div class="amount">49<span class="offer-price-symbol">€</span></div>
+          <div class="label">Base</div>
+        </div>
+        <div class="mokador-price-tag">
+          <div class="amount">59<span class="offer-price-symbol">€</span></div>
+          <div class="label">Plus</div>
+        </div>
+        <div class="mokador-price-tag">
+          <div class="amount">69<span class="offer-price-symbol">€</span></div>
+          <div class="label">Premium</div>
+        </div>
+      </div>
+      <div class="offer-bonus">50 Capsule in Omaggio</div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="banner-footer">
+    <div class="footer-locations">
+      <div class="location">
+        <strong>📍 Formia (LT)</strong>
+        Via Rubino 32 · Tel. 0771 010221
+      </div>
+      <div class="location">
+        <strong>📍 Minturno (LT)</strong>
+        Via L. Cadorna 52 · Tel. 0771 65483
+      </div>
+    </div>
+    <div class="footer-contact">
+      <div class="phone">📞 335 825 6395</div>
+      <div class="social">@espressamente.caffe</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
