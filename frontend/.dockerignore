@@ -1,0 +1,11 @@
+node_modules
+.next
+out
+.git
+.gitignore
+README.md
+*.md
+.env
+.env.local
+.env.production
+.env.production.local

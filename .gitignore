@@ -25,9 +25,12 @@ Thumbs.db
 .env
 .env.local
 .env.production
+.env.production.local
+.env.*.local
 
 # ── Uploads locali ──
 backend/uploads/
 
-# ── Docker volumes ──
+# ── Docker volumes / SSL certs ──
 docker/data/
+docker/nginx/certs/

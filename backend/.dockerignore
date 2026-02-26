@@ -1,0 +1,10 @@
+target/
+*.class
+.git
+.gitignore
+.idea/
+*.iml
+src/test/
+README.md
+uploads/
+.env
