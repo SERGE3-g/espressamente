@@ -156,7 +156,7 @@ export function Footer() {
               &copy; {new Date().getFullYear()} Espressamente Coffee. Tutti i
               diritti riservati. &middot; P. IVA 01896400593
             </p>
-            <p className="font-medium">espressamente.it · v{process.env.NEXT_PUBLIC_APP_VERSION}</p>
+            <p className="font-medium">espressamente.it{process.env.NEXT_PUBLIC_APP_VERSION ? ` · v${process.env.NEXT_PUBLIC_APP_VERSION}` : ""}</p>
           </div>
         </div>
       </footer>
