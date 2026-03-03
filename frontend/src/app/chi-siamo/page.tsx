@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { api } from "@/lib/api";
 import { MotionSection } from "@/components/ui/MotionWrapper";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Chi Siamo — Espressamente",
   description: "Scopri la storia e i valori di Espressamente.",

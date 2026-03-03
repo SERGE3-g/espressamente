@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Coffee } from "lucide-react";
+
+export const dynamic = "force-dynamic";
 import { api } from "@/lib/api";
 
 interface PageProps {
