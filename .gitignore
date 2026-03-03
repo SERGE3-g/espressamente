@@ -34,3 +34,4 @@ backend/uploads/
 # ── Docker volumes / SSL certs ──
 docker/data/
 docker/nginx/certs/
+env.production
