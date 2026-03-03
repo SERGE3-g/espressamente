@@ -1,22 +1,22 @@
 # ─────────────────────────────────────────────────────────────────────────────
-# Produzione — usa immagini da ghcr.io
-# Il reverse proxy (Nginx) gira NATIVO sull'host, non in Docker.
+# Staging/Test — usa immagini da ghcr.io con tag :staging
+# Dominio: stg.espressamente.eu  |  Porte host: 3011 (frontend), 8081 (backend)
 #
 # Avvio:
-#   TAG=<sha> REPO_OWNER=serge3-g \
-#   docker compose -f docker/docker-compose.prod.yml --env-file .env.production up -d
+#   TAG=staging REPO_OWNER=serge3-g \
+#   docker compose -f docker/docker-compose.staging.yml --env-file .env.staging up -d
 # ─────────────────────────────────────────────────────────────────────────────
 
-name: espressamente-prod
+name: espressamente-staging
 
 services:
 
   # ── Next.js frontend ─────────────────────────────────────────────────────────
   frontend:
-    image: ghcr.io/${REPO_OWNER:-serge3-g}/espressamente-frontend:${TAG:-latest}
-    container_name: esp-prod-frontend
+    image: ghcr.io/${REPO_OWNER:-serge3-g}/espressamente-frontend:${TAG:-staging}
+    container_name: esp-staging-frontend
     ports:
-      - "127.0.0.1:3010:3010"   # solo localhost, Nginx proxia dall'esterno
+      - "127.0.0.1:3011:3010"   # porta diversa dalla prod (3010)
     environment:
       - NODE_ENV=production
     depends_on:
@@ -25,30 +25,30 @@ services:
 
   # ── Spring Boot backend ──────────────────────────────────────────────────────
   backend:
-    image: ghcr.io/${REPO_OWNER:-serge3-g}/espressamente-backend:${TAG:-latest}
-    container_name: esp-prod-backend
+    image: ghcr.io/${REPO_OWNER:-serge3-g}/espressamente-backend:${TAG:-staging}
+    container_name: esp-staging-backend
     ports:
-      - "127.0.0.1:8080:8080"   # solo localhost, Nginx proxia /api/
+      - "127.0.0.1:8081:8080"   # porta diversa dalla prod (8080)
     environment:
-      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_PROFILES_ACTIVE=staging
       - DB_HOST=postgres
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - JWT_SECRET=${JWT_SECRET}
-      - CORS_ORIGINS=https://espressamente.eu,https://www.espressamente.eu
+      - CORS_ORIGINS=https://stg.espressamente.eu
       - STORAGE_TYPE=${STORAGE_TYPE:-local}
       - MAIL_HOST=${MAIL_HOST}
       - MAIL_PORT=${MAIL_PORT:-587}
       - MAIL_USERNAME=${MAIL_USERNAME}
       - MAIL_PASSWORD=${MAIL_PASSWORD}
-      - NOTIFICATION_EMAIL=${NOTIFICATION_EMAIL:-info@espressamente.eu}
+      - NOTIFICATION_EMAIL=${NOTIFICATION_EMAIL:-dev@espressamente.eu}
       - S3_BUCKET=${S3_BUCKET:-}
       - S3_REGION=${S3_REGION:-}
       - S3_ENDPOINT=${S3_ENDPOINT:-}
       - S3_ACCESS_KEY=${S3_ACCESS_KEY:-}
       - S3_SECRET_KEY=${S3_SECRET_KEY:-}
     volumes:
-      - backend_uploads_prod:/app/uploads
+      - backend_uploads_staging:/app/uploads
     depends_on:
       postgres:
         condition: service_healthy
@@ -57,15 +57,15 @@ services:
   # ── PostgreSQL ───────────────────────────────────────────────────────────────
   postgres:
     image: postgres:16-alpine
-    container_name: esp-prod-db
+    container_name: esp-staging-db
     environment:
-      - POSTGRES_DB=espressamente_prod
+      - POSTGRES_DB=espressamente_staging
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
-      - postgres_data_prod:/var/lib/postgresql/data
+      - postgres_data_staging:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d espressamente_prod"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d espressamente_staging"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -74,9 +74,9 @@ services:
   # ── Redis (cache) ────────────────────────────────────────────────────────────
   redis:
     image: redis:7-alpine
-    container_name: esp-prod-redis
+    container_name: esp-staging-redis
     restart: unless-stopped
 
 volumes:
-  postgres_data_prod:
-  backend_uploads_prod:
+  postgres_data_staging:
+  backend_uploads_staging:
