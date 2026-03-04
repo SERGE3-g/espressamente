@@ -19,6 +19,7 @@ services:
       - "127.0.0.1:3011:3010"   # porta diversa dalla prod (3010)
     environment:
       - NODE_ENV=production
+      - API_URL=http://backend:8080/api
     depends_on:
       - backend
     restart: unless-stopped
