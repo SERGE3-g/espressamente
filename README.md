@@ -1,65 +1,61 @@
-# ☕ Espressamente
+# Espressamente
 
-**espressamente.it** — Sito vetrina per negozio di caffè specializzato.
+Piattaforma e-commerce per negozio di caffè specializzato — [espressamente.eu](https://espressamente.eu)
 
-## Stack Tecnologico
+## Stack
 
-| Layer | Tecnologia |
-|-------|-----------|
-| Backend | Java 17 + Spring Boot 3 |
-| Frontend | Next.js 16 (React 19) + TypeScript |
-| Database | PostgreSQL 16 (`espressamente_db`) |
-| ORM | Spring Data JPA / Hibernate |
-| Migrazioni DB | Flyway |
-| Styling | Tailwind CSS 4 |
-| Storage | AWS S3 / MinIO |
-| CI/CD | GitHub Actions |
+| Layer | Tecnologia | Versione |
+|-------|-----------|---------|
+| Backend | Java + Spring Boot | 17 / 3.4.3 |
+| Frontend | Next.js + React + TypeScript | 16.1.6 / 19 / 5.7 |
+| Database | PostgreSQL + Flyway | 16 |
+| Styling | Tailwind CSS | 4.0 |
+| Auth | JWT (JJWT) | 0.12.5 |
+| Storage | AWS S3 / MinIO | — |
+| CI/CD | GitHub Actions + GHCR | — |
+| Infra | Docker Compose + Nginx | — |
 
-## Struttura Progetto
+## Struttura
 
 ```
 espressamente/
-├── backend/          # Java Spring Boot 3 API
-├── frontend/         # Next.js 16 App
-├── docker/           # Docker Compose per sviluppo locale
-├── docs/             # Documentazione progetto
+├── backend/          # Spring Boot API (porta 8080)
+├── frontend/         # Next.js app (porta 3010)
+├── docker/           # Docker Compose + Nginx config
+├── scripts/          # Script deploy server
+├── docs/             # Documentazione dettagliata
+├── .github/          # CI/CD GitHub Actions
 └── README.md
 ```
 
-## Quick Start
+## Quick Start (sviluppo locale)
 
-### Prerequisiti
-- Java 17 (JDK)
-- Node.js 20.9+
-- PostgreSQL 16
-- pnpm (consigliato)
-
-### Database
 ```bash
-createdb espressamente_db
-```
-
-### Backend
-```bash
-cd backend
-./mvnw spring-boot:run
-```
-API disponibile su `http://localhost:8080/api`
-
-### Frontend
-```bash
-cd frontend
-pnpm install
-pnpm dev
-```
-App disponibile su `http://localhost:3010`
-
-
-### Docker (sviluppo)
-```bash
+# 1. Avvia infrastruttura (DB, Redis, MinIO, MailHog)
 docker compose -f docker/docker-compose.yml up -d
+
+# 2. Backend
+cd backend && ./mvnw spring-boot:run
+# → http://localhost:8080/api
+# → http://localhost:8080/api/swagger-ui.html
+
+# 3. Frontend
+cd frontend && npm install && npm run dev
+# → http://localhost:3010
 ```
 
-## Autori
+Vedi [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) per la guida completa.
 
-Espressamente Team
+## Ambienti
+
+| Ambiente | Branch | URL | Deploy |
+|----------|--------|-----|--------|
+| Produzione | `master` | https://espressamente.eu | automatico (disabilitato) |
+| Staging | `develop` | https://stg.espressamente.eu | automatico |
+| Locale | — | http://localhost:3010 | manuale |
+
+## Documentazione
+
+- [DEVELOPMENT.md](docs/DEVELOPMENT.md) — Setup locale, workflow, convenzioni
+- [DEPLOY.md](docs/DEPLOY.md) — Deploy VPS, CI/CD, Nginx, SSL
+- [API.md](docs/API.md) — Riferimento REST API
