@@ -36,3 +36,6 @@ backend/uploads/
 docker/data/
 docker/nginx/certs/
 env.production
+
+# ── pgAdmin (contiene password) ──
+docker/pgadmin/pgpass

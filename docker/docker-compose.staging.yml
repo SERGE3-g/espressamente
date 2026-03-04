@@ -59,6 +59,8 @@ services:
   postgres:
     image: postgres:16-alpine
     container_name: esp-staging-db
+    ports:
+      - "127.0.0.1:5434:5432"   # pgAdmin: host.docker.internal:5434
     environment:
       - POSTGRES_DB=espressamente_db
       - POSTGRES_USER=${DB_USERNAME}
