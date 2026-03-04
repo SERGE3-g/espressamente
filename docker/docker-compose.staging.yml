@@ -60,13 +60,13 @@ services:
     image: postgres:16-alpine
     container_name: esp-staging-db
     environment:
-      - POSTGRES_DB=espressamente_staging
+      - POSTGRES_DB=espressamente_db
       - POSTGRES_USER=${DB_USERNAME}
       - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
       - postgres_data_staging:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d espressamente_staging"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d espressamente_db"]
       interval: 10s
       timeout: 5s
       retries: 5
