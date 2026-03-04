@@ -33,9 +33,20 @@ services:
       - pgadmin_data:/var/lib/pgadmin
       - ./pgadmin/servers.json:/pgadmin4/servers.json:ro
       - ./pgadmin/pgpass:/pgpass:ro
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
+    networks:
+      - default
+      - espressamente-staging
+      - jurixsuite
     restart: unless-stopped
+
+networks:
+  default:
+  espressamente-staging:
+    external: true
+    name: espressamente-staging_default
+  jurixsuite:
+    external: true
+    name: jurixsuite-network-dev
 
 volumes:
   pgadmin_data:

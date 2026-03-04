@@ -3,8 +3,8 @@
     "1": {
       "Name": "Espressamente — Staging",
       "Group": "Espressamente",
-      "Host": "host.docker.internal",
-      "Port": 5434,
+      "Host": "esp-staging-db",
+      "Port": 5432,
       "MaintenanceDB": "espressamente_db",
       "Username": "sergeguea",
       "SSLMode": "prefer",
@@ -14,18 +14,18 @@
     "2": {
       "Name": "Espressamente — Produzione",
       "Group": "Espressamente",
-      "Host": "host.docker.internal",
-      "Port": 5433,
+      "Host": "esp-prod-db",
+      "Port": 5432,
       "MaintenanceDB": "espressamente_db",
       "Username": "sergeguea",
       "SSLMode": "prefer",
       "PassFile": "/pgpass",
-      "Comment": "espressamente.eu — branch master"
+      "Comment": "espressamente.eu — branch master (avviare prod prima)"
     },
     "3": {
       "Name": "JurixSuite — Dev",
       "Group": "JurixSuite",
-      "Host": "host.docker.internal",
+      "Host": "jurixsuite-postgres-dev",
       "Port": 5432,
       "MaintenanceDB": "jurixsuite",
       "Username": "sergeguea",

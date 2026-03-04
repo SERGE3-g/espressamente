@@ -3,8 +3,8 @@
 # Il file pgpass NON deve essere committato in git.
 #
 # Staging espressamente
-host.docker.internal:5434:espressamente_db:sergeguea:LA_TUA_PASSWORD_STAGING
+esp-staging-db:5432:espressamente_db:sergeguea:LA_TUA_PASSWORD_STAGING
 # Produzione espressamente
-host.docker.internal:5433:espressamente_db:sergeguea:LA_TUA_PASSWORD_PROD
+esp-prod-db:5432:espressamente_db:sergeguea:LA_TUA_PASSWORD_PROD
 # JurixSuite dev
-host.docker.internal:5432:*:postgres:LA_TUA_PASSWORD_JURIXSUITE
+jurixsuite-postgres-dev:5432:*:sergeguea:LA_TUA_PASSWORD_JURIXSUITE
