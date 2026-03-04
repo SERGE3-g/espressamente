@@ -20,7 +20,8 @@ REPO_OWNER="${REPO_OWNER:-serge3-g}"
 echo "==> Deploy STAGING (tag: ${TAG})"
 
 # ── Aggiorna i file di configurazione dal repo ────────────────────────────────
-echo "--> git pull..."
+echo "--> git pull (develop)..."
+git -C "${DEPLOY_DIR}/repo" checkout develop
 git -C "${DEPLOY_DIR}/repo" pull --ff-only
 
 # ── Login GHCR ───────────────────────────────────────────────────────────────
