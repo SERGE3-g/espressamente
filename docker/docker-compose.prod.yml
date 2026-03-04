@@ -19,6 +19,7 @@ services:
       - "127.0.0.1:3010:3010"   # solo localhost, Nginx proxia dall'esterno
     environment:
       - NODE_ENV=production
+      - API_URL=http://backend:8080/api
     depends_on:
       - backend
     restart: unless-stopped

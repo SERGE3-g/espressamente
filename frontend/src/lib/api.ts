@@ -10,7 +10,11 @@ import type {
   ProductType,
 } from "@/types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080/api";
+// Server-side usa API_URL (runtime), client-side usa NEXT_PUBLIC_API_URL (build-time)
+const API_BASE =
+  (typeof window === "undefined"
+    ? process.env.API_URL
+    : process.env.NEXT_PUBLIC_API_URL) || "http://localhost:8080/api";
 
 async function fetchApi<T>(endpoint: string, options?: RequestInit): Promise<T> {
   const res = await fetch(`${API_BASE}${endpoint}`, {
