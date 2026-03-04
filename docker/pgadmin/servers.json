@@ -28,7 +28,7 @@
       "Host": "host.docker.internal",
       "Port": 5432,
       "MaintenanceDB": "jurixsuite",
-      "Username": "postgres",
+      "Username": "sergeguea",
       "SSLMode": "prefer",
       "PassFile": "/pgpass",
       "Comment": "dev.jurixsuite.it — PostgreSQL 15"
