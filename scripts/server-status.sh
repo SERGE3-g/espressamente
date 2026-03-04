@@ -164,9 +164,35 @@ for svc in "esp-staging-frontend:3011" "esp-staging-backend:8081" "esp-staging-d
   printf "  ${BOLD}%-30s${RESET} %b %-10s %s\n" "$name" "$state" "$port" "$started"
 done
 
+# ── JurixSuite Dev ───────────────────────────────────────────────────────────
+echo
+printf "  ${BOLD}${MAGENTA}● JURIXSUITE — Dev${RESET}  ${DIM}(dev.jurixsuite.it)${RESET}\n"
+printf "  %-35s %-12s %-10s %s\n" "Container" "Stato" "Porta" "Avviato"
+hr
+
+for svc in \
+  "jurixsuite-frontend-dev:3000" \
+  "jurixsuite-gateway-dev:8080" \
+  "jurixsuite-keycloak-dev:8180" \
+  "jurixsuite-eureka-server-dev:8761" \
+  "jurixsuite-client-service-dev:-" \
+  "jurixsuite-document-service-dev:-" \
+  "jurixsuite-dossier-service-dev:-" \
+  "jurixsuite-billing-service-dev:-" \
+  "jurixsuite-calendar-service-dev:-" \
+  "jurixsuite-postgres-dev:5432" \
+  "jurixsuite-redis-dev:6379" \
+  "jurixsuite-minio-dev:9000"; do
+  name="${svc%%:*}"
+  port="${svc##*:}"
+  state=$(container_status "$name")
+  started=$(container_uptime "$name")
+  printf "  ${BOLD}%-35s${RESET} %b %-10s %s\n" "$name" "$state" "$port" "$started"
+done
+
 # ── Altri progetti Docker ─────────────────────────────────────────────────────
 OTHER=$(docker ps --format '{{.Names}}' 2>/dev/null \
-  | grep -v '^esp-' || true)
+  | grep -v '^esp-' | grep -v '^jurixsuite-' || true)
 
 if [[ -n "$OTHER" ]]; then
   echo
