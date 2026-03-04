@@ -28,7 +28,7 @@ services:
     image: ghcr.io/${REPO_OWNER:-serge3-g}/espressamente-backend:${TAG:-latest}
     container_name: esp-prod-backend
     ports:
-      - "127.0.0.1:8080:8080"   # solo localhost, Nginx proxia /api/
+      - "127.0.0.1:8082:8080"   # solo localhost, Nginx proxia /api/
     environment:
       - SPRING_PROFILES_ACTIVE=prod
       - DB_HOST=postgres
