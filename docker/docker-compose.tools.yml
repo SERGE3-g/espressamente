@@ -27,7 +27,14 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-changeme123}
       PGADMIN_CONFIG_SERVER_MODE: "True"
       PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "True"
-      PGADMIN_CONFIG_MFA_ENABLED: "False"
+      # ── SMTP per 2FA ──────────────────────────────────────────────────────
+      PGADMIN_CONFIG_MAIL_SERVER: "'smtp.gmail.com'"
+      PGADMIN_CONFIG_MAIL_PORT: "587"
+      PGADMIN_CONFIG_MAIL_USE_TLS: "True"
+      PGADMIN_CONFIG_MAIL_USE_SSL: "False"
+      PGADMIN_CONFIG_MAIL_USERNAME: "'${PGADMIN_MAIL_USERNAME:-gueaserge2@gmail.com}'"
+      PGADMIN_CONFIG_MAIL_PASSWORD: "'${PGADMIN_MAIL_PASSWORD}'"
+      PGADMIN_CONFIG_SECURITY_EMAIL_SENDER: "'${PGADMIN_MAIL_USERNAME:-gueaserge2@gmail.com}'"
     ports:
       - "127.0.0.1:5050:80"
     volumes:
