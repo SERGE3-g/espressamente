@@ -38,7 +38,7 @@ docker compose -f /opt/espressamente/repo/docker/docker-compose.tools.yml \
   --env-file /opt/espressamente/tools/.env up -d
 ```
 - URL: https://pgadmin.espressamente.eu
-- Login: admin@espressamente.eu / changeme123
+- Login: gueaserge2@gmail.com / changeme123
 
 ## Comandi Utili Server
 
