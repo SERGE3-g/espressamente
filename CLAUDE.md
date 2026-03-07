@@ -71,7 +71,7 @@ docker logs <container-name> --tail 50 -f
 ## TODO — Da completare
 
 ### Alta priorità
-- [ ] **Testare pgAdmin 2FA** — verificare che l'email arrivi con SMTP Gmail configurato
+- [x] **Testare pgAdmin 2FA** — email reset password funziona via Gmail SMTP ✓
 - [ ] **Testare connessione pgAdmin** a tutti i DB (Staging ✓, Prod spento, JurixSuite)
 - [ ] **Validare staging completamente** — tutte le funzionalità (prodotti, form, email, ecc.)
 
