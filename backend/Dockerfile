@@ -19,13 +19,14 @@ RUN addgroup --system --gid 1001 spring \
 
 COPY --from=builder /app/target/*.jar app.jar
 
-# Directory upload locale (montata come volume in prod)
-RUN mkdir -p /app/uploads && chown spring:spring /app/uploads
+# Directory upload e logs (montate come volume in prod)
+RUN mkdir -p /app/uploads /app/logs && chown -R spring:spring /app/uploads /app/logs
 
 USER spring
 EXPOSE 8080
 
+ENV SPRING_PROFILES_ACTIVE=prod
+
 ENTRYPOINT ["java", \
   "-Djava.security.egd=file:/dev/./urandom", \
-  "-Dspring.profiles.active=prod", \
   "-jar", "app.jar"]
