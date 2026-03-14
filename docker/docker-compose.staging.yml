@@ -11,6 +11,18 @@ name: espressamente-staging
 
 services:
 
+  # ── Admin Dashboard ──────────────────────────────────────────────────────────
+  admin:
+    image: ghcr.io/${REPO_OWNER:-serge3-g}/espressamente-admin:${TAG:-staging}
+    container_name: esp-staging-admin
+    ports:
+      - "127.0.0.1:3012:3020"   # admin staging su porta 3012
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    restart: unless-stopped
+
   # ── Next.js frontend ─────────────────────────────────────────────────────────
   frontend:
     image: ghcr.io/${REPO_OWNER:-serge3-g}/espressamente-frontend:${TAG:-staging}
@@ -36,7 +48,7 @@ services:
       - DB_USERNAME=${DB_USERNAME}
       - DB_PASSWORD=${DB_PASSWORD}
       - JWT_SECRET=${JWT_SECRET}
-      - CORS_ORIGINS=https://stg.espressamente.eu
+      - CORS_ORIGINS=https://stg.espressamente.eu,https://admin.stg.espressamente.eu
       - STORAGE_TYPE=${STORAGE_TYPE:-local}
       - MAIL_HOST=${MAIL_HOST}
       - MAIL_PORT=${MAIL_PORT:-587}

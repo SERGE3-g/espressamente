@@ -77,6 +77,20 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      # ── Admin Dashboard ────────────────────────────────────────────────────
+      - name: Build and push admin
+        uses: docker/build-push-action@v5
+        with:
+          context: ./admin
+          push: true
+          build-args: |
+            NEXT_PUBLIC_API_URL=${{ needs.setup.outputs.is_prod == 'true' && 'https://admin.espressamente.eu/api' || 'https://admin.stg.espressamente.eu/api' }}
+          tags: |
+            ghcr.io/${{ needs.setup.outputs.repo_owner }}/espressamente-admin:${{ needs.setup.outputs.image_tag }}
+            ghcr.io/${{ needs.setup.outputs.repo_owner }}/espressamente-admin:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
       # ── Backend ────────────────────────────────────────────────────────────
       - name: Build and push backend
         uses: docker/build-push-action@v5
@@ -97,6 +111,7 @@ jobs:
           echo "| Image | Tag |" >> $GITHUB_STEP_SUMMARY
           echo "|-------|-----|" >> $GITHUB_STEP_SUMMARY
           echo "| frontend | \`${{ needs.setup.outputs.image_tag }}\` / \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
+          echo "| admin    | \`${{ needs.setup.outputs.image_tag }}\` / \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
           echo "| backend  | \`${{ needs.setup.outputs.image_tag }}\` / \`${{ github.sha }}\` |" >> $GITHUB_STEP_SUMMARY
 
   # ── Deploy Produzione ─────────────────────────────────────────────────────────

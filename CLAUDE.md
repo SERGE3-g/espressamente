@@ -67,6 +67,8 @@ docker logs <container-name> --tail 50 -f
 - Virtual hosts: `/etc/nginx/sites-enabled/`
   - `espressamente.eu.conf`
   - `stg.espressamente.eu.conf`
+  - `admin.espressamente.eu.conf` → 127.0.0.1:3020
+  - `admin.stg.espressamente.eu.conf` → 127.0.0.1:3012
   - `pgadmin.espressamente.eu.conf` (Basic Auth: /etc/nginx/.htpasswd-pgadmin)
 
 ## GitHub Secrets necessari
@@ -121,11 +123,12 @@ docker logs <container-name> --tail 50 -f
 - [x] **Frontend dashboard** — `ImageUpload.tsx` (drag & drop + preview), integrato in `ProductForm.tsx` ✓
 
 ### Fase 2f — Deploy
-- [ ] **Dockerfile admin** dashboard
-- [ ] **docker-compose** — aggiungere servizio `admin` in staging e prod
-- [ ] **Nginx** — config `admin.espressamente.eu.conf` + `admin.stg.espressamente.eu.conf`
+- [x] **Dockerfile admin** — `admin/Dockerfile` multi-stage Node 20 Alpine, porta 3020 ✓
+- [x] **docker-compose** — servizio `admin` in staging (porta 3012) e prod (porta 3020) ✓
+- [x] **Nginx** — `admin.espressamente.eu.conf` + `admin.stg.espressamente.eu.conf` ✓
 - [ ] **SSL** — certificati per admin.espressamente.eu e admin.stg.espressamente.eu
-- [ ] **GitHub Actions** — aggiornare CI/CD per build + deploy admin dashboard
+- [x] **GitHub Actions** — CI (typecheck + build) + CD (build & push immagine admin) ✓
+- [x] **CORS** — domini admin aggiunti a `CORS_ORIGINS` in staging e prod ✓
 
 ### Alta priorità (infrastruttura)
 - [x] **Testare pgAdmin 2FA** — email reset password funziona via Gmail SMTP ✓
