@@ -29,6 +29,21 @@
         "type": "string"
       },
       {
+        "key": "clientId",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "clientSecret",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "scope",
+        "value": "",
+        "type": "string"
+      },
+      {
         "key": "tokenName",
         "value": "Espressamente JWT",
         "type": "string"
@@ -46,6 +61,26 @@
       {
         "key": "client_authentication",
         "value": "body",
+        "type": "string"
+      },
+      {
+        "key": "useBrowser",
+        "value": false,
+        "type": "boolean"
+      },
+      {
+        "key": "authUrl",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "redirect_uri",
+        "value": "",
+        "type": "string"
+      },
+      {
+        "key": "state",
+        "value": "",
         "type": "string"
       }
     ]
