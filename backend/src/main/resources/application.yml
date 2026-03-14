@@ -53,11 +53,12 @@ spring:
 app:
   jwt:
     secret: ${JWT_SECRET:espressamente-dev-secret-key-change-in-production-min-256-bits!!}
-    expiration-ms: 86400000  # 24 ore
+    expiration-ms: 3600000          # 1 ora
+    refresh-expiration-ms: 604800000  # 7 giorni
 
   # ── CORS ──
   cors:
-    allowed-origins: ${CORS_ORIGINS:http://localhost:3010}
+    allowed-origins: ${CORS_ORIGINS:http://localhost:3010,http://localhost:3020,http://192.168.1.17:3010,http://192.168.1.17:3020}
 
   # ── S3 / MinIO ──
   storage:
@@ -70,17 +71,44 @@ app:
       access-key: ${S3_ACCESS_KEY:}
       secret-key: ${S3_SECRET_KEY:}
 
+  # ── Admin dashboard URL (per link email reset password) ──
+  admin:
+    base-url: ${ADMIN_BASE_URL:http://localhost:3020}
+
+  # ── Cookie sicuri (abilitare in produzione con HTTPS) ──
+  cookie:
+    secure: ${COOKIE_SECURE:false}
+
+  # ── Cifratura DB (AES-256-GCM) ──
+  # Imposta DB_ENCRYPTION_KEY con 32 byte in base64, es: openssl rand -base64 32
+  # Se vuoto, la cifratura è disabilitata (solo sviluppo locale)
+  encryption:
+    key: ${DB_ENCRYPTION_KEY:}
+
+  # ── Azienda (per PDF fatture) ──
+  company:
+    name: ${COMPANY_NAME:Espressamente Coffee}
+    address: ${COMPANY_ADDRESS:Via Rubino 32, 04023 Formia (LT)}
+    vat-number: ${COMPANY_VAT:01896400593}
+    fiscal-code: ${COMPANY_CF:}
+    sdi: ${COMPANY_SDI:0000000}
+    phone: ${COMPANY_PHONE:0771 010221}
+    mobile: ${COMPANY_MOBILE:+39 335 825 6395}
+    email: ${COMPANY_EMAIL:info@espressamente.eu}
+    pec: ${COMPANY_PEC:}
+    website: ${COMPANY_WEBSITE:www.espressamente.eu}
+    logo-path: ${COMPANY_LOGO:classpath:static/logo.png}
+
   # ── Contatti ──
   contact:
     notification-email: ${NOTIFICATION_EMAIL:info@espressamente.it}
 
 # ── Logging ──
+# Configurazione dettagliata in logback-spring.xml (per profilo)
+# Qui solo override minimali se necessari
 logging:
   level:
-    root: INFO
-    it.espressamente: DEBUG
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    root: WARN
 
 # ── Actuator ──
 management:
@@ -111,8 +139,8 @@ spring:
   jpa:
     show-sql: false
 
-logging:
-  level:
-    root: WARN
-    it.espressamente: INFO
-    org.hibernate.SQL: WARN
+app:
+  cookie:
+    secure: true
+
+# Logging gestito da logback-spring.xml (profilo prod)

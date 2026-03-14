@@ -21,7 +21,8 @@ export function BrandsSection({ brands }: Props) {
           <MotionChild key={brand.id}>
             <Link
               href={`/brand/${brand.slug}`}
-              className="grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-400 hover:scale-110"
+              aria-label={`Scopri i prodotti ${brand.name}`}
+              className="grayscale hover:grayscale-0 opacity-50 hover:opacity-100 transition-all duration-400 hover:scale-110 inline-block min-w-[44px] min-h-[44px] flex items-center justify-center"
             >
               {brand.logo ? (
                 <Image
@@ -30,6 +31,8 @@ export function BrandsSection({ brands }: Props) {
                   width={120}
                   height={60}
                   className="object-contain"
+                  loading="lazy"
+                  sizes="120px"
                 />
               ) : (
                 <span className="text-lg font-heading font-semibold text-brand-600 px-4 py-2">

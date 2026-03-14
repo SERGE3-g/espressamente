@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/Input";
 import { Textarea } from "@/components/ui/Textarea";
 import { Button } from "@/components/ui/Button";
@@ -18,12 +19,13 @@ const schema = z.object({
   machineModel: z.string().optional(),
   issueDescription: z.string().min(10, "Descrivere il problema in dettaglio (min 10 caratteri)"),
   preferredDate: z.string().optional(),
+  privacyConsent: z.literal(true, { errorMap: () => ({ message: "Devi accettare il trattamento dei dati" }) }),
 });
 
 type FormData = z.infer<typeof schema>;
 
 export function ServiceRequestForm() {
-  const [success, setSuccess] = useState(false);
+  const router = useRouter();
   const [serverError, setServerError] = useState<string | null>(null);
 
   const {
@@ -39,26 +41,10 @@ export function ServiceRequestForm() {
     setServerError(null);
     try {
       await api.service.submit(data);
-      setSuccess(true);
-      reset();
+      router.push("/?richiesta=inviata");
     } catch (e: unknown) {
       setServerError(e instanceof Error ? e.message : "Errore durante l'invio.");
     }
-  }
-
-  if (success) {
-    return (
-      <div className="bg-green-50 border border-green-200 rounded-xl p-8 text-center">
-        <p className="text-lg font-semibold text-green-800">Richiesta inviata!</p>
-        <p className="text-green-600 mt-2">Il nostro team ti contatterà presto.</p>
-        <button
-          onClick={() => setSuccess(false)}
-          className="mt-4 text-sm text-green-700 underline"
-        >
-          Invia un&apos;altra richiesta
-        </button>
-      </div>
-    );
   }
 
   return (
@@ -117,6 +103,26 @@ export function ServiceRequestForm() {
         type="date"
         {...register("preferredDate")}
       />
+
+      {/* Privacy consent */}
+      <div className="flex items-start gap-3">
+        <input
+          id="privacyConsent"
+          type="checkbox"
+          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500"
+          {...register("privacyConsent")}
+        />
+        <label htmlFor="privacyConsent" className="text-sm text-gray-600 leading-relaxed">
+          Accetto il trattamento dei miei dati personali ai sensi del{" "}
+          <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="underline hover:text-brand-900">
+            Regolamento UE 2016/679 (GDPR)
+          </a>
+          . *
+        </label>
+      </div>
+      {errors.privacyConsent && (
+        <p className="text-sm text-red-500 -mt-2">{errors.privacyConsent.message}</p>
+      )}
 
       {serverError && <p className="text-sm text-red-500">{serverError}</p>}
 

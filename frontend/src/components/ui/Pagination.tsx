@@ -25,10 +25,11 @@ export function Pagination({ totalPages, currentPage }: PaginationProps) {
   const pages = Array.from({ length: totalPages }, (_, i) => i);
 
   return (
-    <div className="flex items-center justify-center gap-1.5 mt-12">
+    <nav aria-label="Paginazione" className="flex items-center justify-center gap-1.5 mt-12">
       <button
         onClick={() => goToPage(currentPage - 1)}
         disabled={currentPage === 0}
+        aria-label="Pagina precedente"
         className="w-10 h-10 flex items-center justify-center rounded-full border border-brand-200 text-brand-600 hover:bg-brand-50 hover:border-brand-300 disabled:opacity-30 disabled:cursor-not-allowed transition"
       >
         <ChevronLeft className="w-4 h-4" />
@@ -38,6 +39,8 @@ export function Pagination({ totalPages, currentPage }: PaginationProps) {
         <button
           key={page}
           onClick={() => goToPage(page)}
+          aria-label={`Pagina ${page + 1}`}
+          aria-current={page === currentPage ? "page" : undefined}
           className={clsx(
             "w-10 h-10 rounded-full text-sm font-medium transition",
             page === currentPage
@@ -52,10 +55,11 @@ export function Pagination({ totalPages, currentPage }: PaginationProps) {
       <button
         onClick={() => goToPage(currentPage + 1)}
         disabled={currentPage === totalPages - 1}
+        aria-label="Pagina successiva"
         className="w-10 h-10 flex items-center justify-center rounded-full border border-brand-200 text-brand-600 hover:bg-brand-50 hover:border-brand-300 disabled:opacity-30 disabled:cursor-not-allowed transition"
       >
         <ChevronRight className="w-4 h-4" />
       </button>
-    </div>
+    </nav>
   );
 }

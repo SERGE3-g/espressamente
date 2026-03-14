@@ -7,6 +7,7 @@ import type {
   ApiResponse,
   ContactFormData,
   ServiceFormData,
+  ComodatoFormData,
   ProductType,
 } from "@/types";
 
@@ -89,6 +90,15 @@ export const api = {
   service: {
     submit: (data: ServiceFormData) =>
       fetchApi<ApiResponse<void>>("/v1/service-request", {
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+  },
+
+  // ── Comodato ──
+  comodato: {
+    submit: (data: ComodatoFormData) =>
+      fetchApi<ApiResponse<void>>("/v1/comodato", {
         method: "POST",
         body: JSON.stringify(data),
       }),

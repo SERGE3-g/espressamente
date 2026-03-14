@@ -5,7 +5,7 @@ import { AssistenzaBanner } from "@/components/sections/AssistenzaBanner";
 import { BrandsSection } from "@/components/sections/BrandsSection";
 import { api } from "@/lib/api";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 export default async function HomePage() {
   const [featured, categories, brands] = await Promise.all([

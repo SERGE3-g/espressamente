@@ -17,7 +17,7 @@ export function Footer() {
                 <div className="mb-4">
                   <Logo variant="compact" theme="light" width={180} />
                 </div>
-                <p className="text-sm text-brand-400 leading-relaxed">
+                <p className="text-sm text-brand-300 leading-relaxed">
                   Caffè di qualità, macchine da caffè dei migliori brand e
                   assistenza tecnica professionale. Concessionario di zona illy e
                   Mokador.
@@ -27,7 +27,7 @@ export function Footer() {
                       href="https://www.instagram.com/espressamente.caffe"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-8 h-8 rounded-full bg-brand-800/50 flex items-center justify-center hover:bg-brand-700 transition-colors"
+                      className="w-11 h-11 rounded-full bg-brand-800/50 flex items-center justify-center hover:bg-brand-700 transition-colors"
                       aria-label="Instagram"
                   >
                     <Instagram className="w-4 h-4 text-brand-300" />
@@ -37,9 +37,9 @@ export function Footer() {
 
               {/* Links */}
               <div>
-                <h4 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">
+                <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">
                   Navigazione
-                </h4>
+                </h3>
                 <ul className="space-y-2.5 text-sm">
                   {[
                     { href: "/caffe", label: "Caffè" },
@@ -51,7 +51,7 @@ export function Footer() {
                       <li key={link.href}>
                         <Link
                             href={link.href}
-                            className="text-brand-400 hover:text-white transition-colors duration-200 inline-block"
+                            className="text-brand-300 hover:text-white transition-colors duration-200 inline-block"
                         >
                           {link.label}
                         </Link>
@@ -62,16 +62,16 @@ export function Footer() {
 
               {/* Punti Vendita */}
               <div>
-                <h4 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">
+                <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">
                   Punti Vendita
-                </h4>
+                </h3>
                 <ul className="space-y-5 text-sm">
                   {/* Formia */}
                   <li>
                     <p className="text-white font-medium mb-1">Formia (LT)</p>
                     <div className="flex items-start gap-2 mb-1">
                       <MapPin className="w-3.5 h-3.5 mt-0.5 text-brand-500 shrink-0" />
-                      <span className="text-brand-400">
+                      <span className="text-brand-300">
                       Via Rubino 32, 04023
                     </span>
                     </div>
@@ -79,7 +79,7 @@ export function Footer() {
                       <Phone className="w-3.5 h-3.5 text-brand-500 shrink-0" />
                       <a
                           href="tel:+390771010221"
-                          className="text-brand-400 hover:text-white transition-colors"
+                          className="text-brand-300 hover:text-white transition-colors"
                       >
                         0771 010221
                       </a>
@@ -90,7 +90,7 @@ export function Footer() {
                     <p className="text-white font-medium mb-1">Minturno (LT)</p>
                     <div className="flex items-start gap-2 mb-1">
                       <MapPin className="w-3.5 h-3.5 mt-0.5 text-brand-500 shrink-0" />
-                      <span className="text-brand-400">
+                      <span className="text-brand-300">
                       Via Luigi Cadorna 52, 04026
                     </span>
                     </div>
@@ -98,7 +98,7 @@ export function Footer() {
                       <Phone className="w-3.5 h-3.5 text-brand-500 shrink-0" />
                       <a
                           href="tel:+390771065483"
-                          className="text-brand-400 hover:text-white transition-colors"
+                          className="text-brand-300 hover:text-white transition-colors"
                       >
                         0771 65483
                       </a>
@@ -109,15 +109,15 @@ export function Footer() {
 
               {/* Contatti & Orari */}
               <div>
-                <h4 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">
+                <h3 className="font-semibold text-white mb-4 text-sm uppercase tracking-wider">
                   Contatti
-                </h4>
+                </h3>
                 <ul className="space-y-3 text-sm">
                   <li className="flex items-center gap-3">
                     <Phone className="w-4 h-4 text-brand-500 shrink-0" />
                     <a
                         href="tel:+393358256395"
-                        className="text-brand-400 hover:text-white transition-colors"
+                        className="text-brand-300 hover:text-white transition-colors"
                     >
                       +39 335 825 6395
                     </a>
@@ -126,19 +126,19 @@ export function Footer() {
                     <Mail className="w-4 h-4 text-brand-500 shrink-0" />
                     <a
                         href="mailto:latino.99@virgilio.it"
-                        className="text-brand-400 hover:text-white transition-colors"
+                        className="text-brand-300 hover:text-white transition-colors"
                     >
                       latino.99@virgilio.it
                     </a>
                   </li>
                 </ul>
 
-                <h4 className="font-semibold text-white mt-6 mb-3 text-sm uppercase tracking-wider">
+                <h3 className="font-semibold text-white mt-6 mb-3 text-sm uppercase tracking-wider">
                   Orari
-                </h4>
+                </h3>
                 <div className="flex items-start gap-3 text-sm">
                   <Clock className="w-4 h-4 mt-0.5 text-brand-500 shrink-0" />
-                  <div className="text-brand-400 space-y-1">
+                  <div className="text-brand-300 space-y-1">
                     <p>Lun – Ven: 9:00 – 19:00</p>
                     <p>Sab: 9:00 – 13:00</p>
                     <p>Dom: Chiuso</p>
@@ -151,12 +151,20 @@ export function Footer() {
 
         {/* Bottom */}
         <div className="border-t border-brand-800/50 py-5">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-2 text-xs text-brand-500">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row justify-between items-center gap-3 text-xs text-brand-400">
             <p>
               &copy; {new Date().getFullYear()} Espressamente Coffee. Tutti i
               diritti riservati. &middot; P. IVA 01896400593
             </p>
-            <p className="font-medium">espressamente.it{process.env.NEXT_PUBLIC_APP_VERSION ? ` · v${process.env.NEXT_PUBLIC_APP_VERSION}` : ""}</p>
+            <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
+              <Link href="/privacy-policy" className="hover:text-brand-300 transition-colors">Privacy Policy</Link>
+              <span className="text-brand-700">·</span>
+              <Link href="/cookie-policy" className="hover:text-brand-300 transition-colors">Cookie Policy</Link>
+              <span className="text-brand-700">·</span>
+              <Link href="/termini-di-spedizione-e-consegna" className="hover:text-brand-300 transition-colors">Spedizioni e Consegne</Link>
+              <span className="text-brand-700">·</span>
+              <span className="font-medium">espressamente.it{process.env.NEXT_PUBLIC_APP_VERSION ? ` · v${process.env.NEXT_PUBLIC_APP_VERSION}` : ""}</span>
+            </div>
           </div>
         </div>
       </footer>

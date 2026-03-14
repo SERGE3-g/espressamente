@@ -57,9 +57,11 @@ export interface ContactFormData {
   fullName: string;
   email: string;
   phone?: string;
+  companyName?: string;
   subject?: string;
   message: string;
   contactType: ContactType;
+  privacyConsent: boolean;
 }
 
 export interface ServiceFormData {
@@ -71,6 +73,25 @@ export interface ServiceFormData {
   machineModel?: string;
   issueDescription: string;
   preferredDate?: string;
+}
+
+export type DeliveryType = "CONSEGNA" | "RITIRO";
+
+export interface ComodatoFormData {
+  clientType: "PRIVATO" | "AZIENDA";
+  vatNumber?: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  companyName?: string;
+  address?: string;
+  city: string;
+  province?: string;
+  machineId?: number;
+  machineName?: string;
+  deliveryType: DeliveryType;
+  notes?: string;
+  privacyConsent: boolean;
 }
 
 // ── API Types ──

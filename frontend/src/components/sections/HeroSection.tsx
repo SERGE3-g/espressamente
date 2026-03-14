@@ -3,20 +3,28 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 
 const HERO_IMAGES = [
-  "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1920&q=80",
-  "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=1920&q=80",
-  "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1920&q=80",
-  "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1920&q=80",
+  "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=1200&q=75",
+  "https://images.unsplash.com/photo-1510707577719-ae7c14805e3a?w=1200&q=75",
+  "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1200&q=75",
+  "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&q=75",
+];
+
+const HERO_ALTS = [
+  "Tazzina di caffè espresso su tavolo in legno",
+  "Chicchi di caffè tostati primo piano",
+  "Macchina da caffè espresso professionale",
+  "Barista prepara un cappuccino in caffetteria",
 ];
 
 export function HeroSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    setLoaded(true);
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % HERO_IMAGES.length);
     }, 5000);
@@ -26,83 +34,85 @@ export function HeroSection() {
   return (
     <section className="relative text-white overflow-hidden min-h-[85vh] flex items-center">
       {/* Background images with crossfade */}
-      <AnimatePresence mode="sync">
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.2 }}
-          className="absolute inset-0 z-0"
+      {HERO_IMAGES.map((src, i) => (
+        <div
+          key={i}
+          className="absolute inset-0 z-0 transition-opacity duration-1000"
+          style={{ opacity: i === currentIndex ? 1 : 0 }}
         >
           <Image
-            src={HERO_IMAGES[currentIndex]}
-            alt=""
+            src={src}
+            alt={HERO_ALTS[i]}
             fill
             className="object-cover"
-            priority={currentIndex === 0}
+            priority={i === 0}
+            loading={i === 0 ? "eager" : "lazy"}
             sizes="100vw"
+            quality={75}
           />
-        </motion.div>
-      </AnimatePresence>
+        </div>
+      ))}
 
       {/* Coffee pattern overlay */}
       <div className="absolute inset-0 z-[1] bg-coffee-pattern" />
 
-      {/* Subtle ambient glows */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none z-[2]">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brand-400/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-brand-500/5 rounded-full blur-3xl" />
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-24 md:py-32 relative z-10 w-full">
         <div className="max-w-3xl">
           {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-brand-400 text-sm font-medium uppercase tracking-[0.2em] mb-6"
+          <p
+            className="text-brand-300 text-sm font-medium uppercase tracking-[0.2em] mb-6 transition-all duration-600 ease-out"
+            style={{
+              opacity: loaded ? 1 : 0,
+              transform: loaded ? "translateY(0)" : "translateY(20px)",
+              transitionDelay: "0.1s",
+            }}
           >
             Dal chicco alla tazzina
-          </motion.p>
+          </p>
 
           {/* Main heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="font-heading text-5xl md:text-7xl font-bold leading-[1.1] mb-4"
+          <h1
+            className="font-heading text-5xl md:text-7xl font-bold leading-[1.1] mb-4 transition-all duration-700 ease-out"
+            style={{
+              opacity: loaded ? 1 : 0,
+              transform: loaded ? "translateY(0)" : "translateY(30px)",
+              transitionDelay: "0.2s",
+            }}
           >
             Il caffè,<br />
             <span className="text-gradient">fatto bene.</span>
-          </motion.h1>
+          </h1>
 
           {/* Decorative line */}
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: 80 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="h-0.5 bg-gradient-to-r from-brand-400 to-brand-300 rounded-full mb-8"
+          <div
+            className="h-0.5 bg-gradient-to-r from-brand-400 to-brand-300 rounded-full mb-8 transition-all duration-800 ease-out"
+            style={{
+              width: loaded ? 80 : 0,
+              transitionDelay: "0.5s",
+            }}
           />
 
           {/* Description */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.6 }}
-            className="text-lg md:text-xl text-brand-200/90 mb-10 leading-relaxed max-w-2xl"
+          <p
+            className="text-lg md:text-xl text-brand-200/90 mb-10 leading-relaxed max-w-2xl transition-all duration-600 ease-out"
+            style={{
+              opacity: loaded ? 1 : 0,
+              transform: loaded ? "translateY(0)" : "translateY(20px)",
+              transitionDelay: "0.6s",
+            }}
           >
             Caffè di qualità selezionati dalle migliori torrefazioni, macchine da caffè
             dei brand più prestigiosi e assistenza tecnica professionale.
-          </motion.p>
+          </p>
 
           {/* CTAs */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.8 }}
-            className="flex flex-wrap gap-4"
+          <div
+            className="flex flex-wrap gap-4 transition-all duration-600 ease-out"
+            style={{
+              opacity: loaded ? 1 : 0,
+              transform: loaded ? "translateY(0)" : "translateY(20px)",
+              transitionDelay: "0.8s",
+            }}
           >
             <Link
               href="/caffe"
@@ -116,24 +126,19 @@ export function HeroSection() {
             >
               Assistenza
             </Link>
-          </motion.div>
+          </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 0.6 }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10"
+      <div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 transition-opacity duration-600"
+        style={{ opacity: loaded ? 1 : 0, transitionDelay: "1.5s" }}
       >
-        <motion.div
-          animate={{ y: [0, 6, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
+        <div className="animate-bounce">
           <ChevronDown className="w-6 h-6 text-brand-400/60" />
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   );
 }

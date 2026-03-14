@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
-import { QueryProvider } from "@/lib/providers";
+import { CookieBanner } from "@/components/CookieBanner";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "it_IT",
-    url: "https://espressamente.it",
+    url: "https://espressamente.eu",
     siteName: "Espressamente",
     title: "Espressamente | Caffè di Qualità, Macchine e Assistenza",
     description:
@@ -45,12 +45,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="it" className={inter.variable}>
+      <head>
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://images.unsplash.com" crossOrigin="anonymous" />
+      </head>
       <body className="min-h-screen flex flex-col bg-brand-50 text-brand-900">
-        <QueryProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </QueryProvider>
+        <Header />
+        <main className="flex-1">{children}</main>
+        <Footer />
+        <CookieBanner />
       </body>
     </html>
   );

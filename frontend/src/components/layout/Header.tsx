@@ -1,16 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { Menu, X, Phone, Instagram } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Logo } from "@/components/ui/Logo";
 
 const navigation = [
   { name: "Home", href: "/" },
   { name: "Caffè", href: "/caffe" },
   { name: "Macchine", href: "/macchine" },
+  { name: "Comodato", href: "/comodato" },
   { name: "Assistenza", href: "/assistenza" },
   { name: "Chi Siamo", href: "/chi-siamo" },
   { name: "Contatti", href: "/contatti" },
@@ -20,6 +20,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -52,16 +53,18 @@ export function Header() {
                   href="https://www.instagram.com/espressamente.caffe"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1.5 hover:text-white transition-colors"
+                  className="flex items-center gap-1.5 hover:text-white transition-colors min-h-[44px] min-w-[44px] justify-center sm:min-w-0"
+                  aria-label="Seguici su Instagram"
               >
-                <Instagram className="w-3 h-3" />
+                <Instagram className="w-3.5 h-3.5" />
                 <span className="hidden sm:inline">@espressamente.caffe</span>
               </a>
               <a
                   href="tel:+393358256395"
-                  className="flex items-center gap-1.5 hover:text-white transition-colors"
+                  className="flex items-center gap-1.5 hover:text-white transition-colors min-h-[44px]"
+                  aria-label="Chiamaci al +39 335 825 6395"
               >
-                <Phone className="w-3 h-3" />
+                <Phone className="w-3.5 h-3.5" />
                 <span className="font-medium">+39 335 825 6395</span>
               </a>
             </div>
@@ -95,10 +98,8 @@ export function Header() {
                     >
                       {item.name}
                       {isActive && (
-                          <motion.span
-                              layoutId="nav-underline"
+                          <span
                               className="absolute bottom-0 left-4 right-4 h-0.5 bg-gradient-to-r from-brand-400 to-brand-500 rounded-full"
-                              transition={{ type: "spring", stiffness: 400, damping: 30 }}
                           />
                       )}
                     </Link>
@@ -111,7 +112,8 @@ export function Header() {
           <button
               className="md:hidden p-2 rounded-lg hover:bg-brand-50 transition-colors"
               onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Menu"
+              aria-label={mobileOpen ? "Chiudi menu di navigazione" : "Apri menu di navigazione"}
+              aria-expanded={mobileOpen}
           >
             {mobileOpen ? (
                 <X className="w-5 h-5 text-brand-800" />
@@ -122,43 +124,38 @@ export function Header() {
         </nav>
 
         {/* Mobile menu */}
-        <AnimatePresence>
-          {mobileOpen && (
-              <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: "auto" }}
-                  exit={{ opacity: 0, height: 0 }}
-                  transition={{ duration: 0.25, ease: "easeInOut" }}
-                  className="md:hidden overflow-hidden border-t border-brand-100"
-              >
-                <div className="bg-white px-4 sm:px-6 pb-4">
-                  <ul className="flex flex-col gap-1 pt-2">
-                    {navigation.map((item) => {
-                      const isActive =
-                          item.href === "/"
-                              ? pathname === "/"
-                              : pathname.startsWith(item.href);
-                      return (
-                          <li key={item.href}>
-                            <Link
-                                href={item.href}
-                                className={`block py-2.5 px-3 rounded-lg text-sm font-medium transition-all ${
-                                    isActive
-                                        ? "text-brand-900 bg-brand-50 font-semibold"
-                                        : "text-brand-600 hover:text-brand-900 hover:bg-brand-50"
-                                }`}
-                                onClick={() => setMobileOpen(false)}
-                            >
-                              {item.name}
-                            </Link>
-                          </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              </motion.div>
-          )}
-        </AnimatePresence>
+        <div
+            ref={menuRef}
+            className={`md:hidden overflow-hidden border-t border-brand-100 transition-all duration-250 ease-in-out ${
+                mobileOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+            }`}
+        >
+          <div className="bg-white px-4 sm:px-6 pb-4">
+            <ul className="flex flex-col gap-1 pt-2">
+              {navigation.map((item) => {
+                const isActive =
+                    item.href === "/"
+                        ? pathname === "/"
+                        : pathname.startsWith(item.href);
+                return (
+                    <li key={item.href}>
+                      <Link
+                          href={item.href}
+                          className={`block py-2.5 px-3 rounded-lg text-sm font-medium transition-all ${
+                              isActive
+                                  ? "text-brand-900 bg-brand-50 font-semibold"
+                                  : "text-brand-600 hover:text-brand-900 hover:bg-brand-50"
+                          }`}
+                          onClick={() => setMobileOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
       </header>
   );
 }

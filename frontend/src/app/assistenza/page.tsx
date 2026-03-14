@@ -83,8 +83,8 @@ export default function AssistenzaPage() {
         <MotionSection delay={0.2}>
           <div className="mt-16 text-center text-brand-500 space-y-2">
             <p>Preferisci chiamarci direttamente?</p>
-            <a href="tel:+390000000000" className="text-brand-900 font-bold text-lg hover:text-brand-600 transition-colors">
-              +39 000 000 0000
+            <a href="tel:+393358256395" className="text-brand-900 font-bold text-lg hover:text-brand-600 transition-colors">
+              +39 335 825 6395
             </a>
             <p className="text-sm">Lun–Ven 9:00–18:00, Sab 9:00–13:00</p>
           </div>
