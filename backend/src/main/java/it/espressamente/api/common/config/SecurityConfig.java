@@ -60,7 +60,7 @@ public class SecurityConfig {
                 // Auth
                 .requestMatchers("/v1/auth/**").permitAll()
                 // Swagger & Actuator
-                .requestMatchers("/swagger-ui/**", "/api-docs/**").permitAll()
+                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs/**", "/webjars/**").permitAll()
                 .requestMatchers("/actuator/health").permitAll()
                 // Admin — richiede autenticazione JWT
                 .requestMatchers("/v1/admin/**").authenticated()
