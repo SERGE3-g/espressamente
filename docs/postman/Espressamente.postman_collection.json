@@ -20,7 +20,38 @@
       "listen": "prerequest",
       "script": {
         "type": "text/javascript",
-        "exec": [""]
+        "exec": [
+          "// Auto-login se accessToken mancante o scaduto",
+          "const token = pm.environment.get('accessToken');",
+          "if (token) return;",
+          "",
+          "const baseUrl = pm.environment.get('baseUrl') || pm.variables.get('baseUrl');",
+          "const username = pm.environment.get('adminUsername') || 'admin';",
+          "const password = pm.environment.get('adminPassword');",
+          "",
+          "if (!password) {",
+          "    console.warn('⚠️  adminPassword non impostata nell\\'environment — imposta la variabile e riprova.');",
+          "    return;",
+          "}",
+          "",
+          "pm.sendRequest({",
+          "    url: baseUrl + '/v1/auth/login',",
+          "    method: 'POST',",
+          "    header: { 'Content-Type': 'application/json' },",
+          "    body: { mode: 'raw', raw: JSON.stringify({ username, password }) }",
+          "}, (err, res) => {",
+          "    if (err) { console.error('Auto-login fallito:', err); return; }",
+          "    const body = res.json();",
+          "    if (body.data && body.data.accessToken) {",
+          "        pm.environment.set('accessToken', body.data.accessToken);",
+          "        pm.environment.set('currentUser', body.data.username);",
+          "        pm.environment.set('currentRole', body.data.role);",
+          "        console.log('✅ Auto-login OK: ' + body.data.username + ' (' + body.data.role + ')');",
+          "    } else {",
+          "        console.error('Auto-login: risposta inattesa', JSON.stringify(body));",
+          "    }",
+          "});"
+        ]
       }
     }
   ],
@@ -28,7 +59,8 @@
     {
       "key": "baseUrl",
       "value": "http://localhost:8080/api",
-      "type": "string"
+      "type": "string",
+      "description": "Override tramite environment — non modificare qui"
     }
   ],
   "item": [
