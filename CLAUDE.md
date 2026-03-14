@@ -1,5 +1,8 @@
 # CLAUDE.md — Espressamente Project
 
+> **Versione corrente: v2.0.0** — rilasciata 2026-03-14
+> Release: https://github.com/SERGE3-g/espressamente/releases/tag/v2.0.0
+
 ## Panoramica
 Piattaforma e-commerce per negozio di caffè specializzato.
 - **Frontend pubblico**: Next.js 16 + TypeScript + Tailwind v4 (porta 3010)
