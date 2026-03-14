@@ -124,10 +124,14 @@ management:
 springdoc:
   api-docs:
     path: /api-docs
+    enabled: true
   swagger-ui:
     path: /swagger-ui.html
     tags-sorter: alpha
     operations-sorter: alpha
+    display-request-duration: true
+    try-it-out-enabled: true
+    filter: true
 
 ---
 # Profilo di produzione
@@ -144,3 +148,10 @@ app:
     secure: true
 
 # Logging gestito da logback-spring.xml (profilo prod)
+
+# Swagger disabilitato in produzione
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
