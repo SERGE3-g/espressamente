@@ -1,358 +1,348 @@
-# REST API Reference
+# Espressamente API — Documentazione v2.0.0
 
-Base URL:
-- **Locale:** `http://localhost:8080/api`
-- **Staging:** `https://stg.espressamente.eu/api`
-- **Produzione:** `https://espressamente.eu/api`
-
-Swagger UI disponibile su `/api/swagger-ui.html`
+> Backend: Spring Boot 3.4.3 | Java 17 | PostgreSQL
+> Base URL: `https://espressamente.eu/api` (prod) | `https://stg.espressamente.eu/api` (staging) | `http://localhost:8080/api` (local)
 
 ---
 
 ## Autenticazione
 
-Gli endpoint pubblici non richiedono autenticazione.
-
-Gli endpoint admin (`/v1/admin/**`) richiedono un JWT nel header:
-```
-Authorization: Bearer <token>
-```
-
----
-
-## Prodotti
-
-### Lista prodotti
+### Flow JWT
 
 ```
-GET /v1/products
+1. POST /v1/auth/login          → accessToken (15 min) + cookie refresh_token (7 gg)
+2. Autorizzazione: Bearer <accessToken> su tutte le richieste /v1/admin/**
+3. POST /v1/auth/refresh        → nuovo accessToken (refresh token ruotato automaticamente)
+4. POST /v1/auth/logout         → revoca refresh token, cancella cookie
 ```
 
-**Query parameters:**
+### Headers richiesti per endpoint admin
 
-| Param | Tipo | Default | Descrizione |
-|-------|------|---------|-------------|
-| `page` | integer | `0` | Numero pagina (0-based) |
-| `size` | integer | `12` | Elementi per pagina |
-| `type` | string | — | `CAFFE`, `MACCHINA`, `ACCESSORIO` |
-| `sort` | string | `name` | `name`, `price_asc`, `price_desc`, `newest` |
-
-**Response:**
-```json
-{
-  "content": [
-    {
-      "id": 1,
-      "name": "Arabica Etiopia",
-      "slug": "arabica-etiopia",
-      "description": "...",
-      "price": 12.50,
-      "type": "CAFFE",
-      "featured": true,
-      "active": true,
-      "images": ["url1", "url2"],
-      "features": { "intensita": "media", "origine": "Etiopia" },
-      "category": { "id": 1, "name": "Caffè Specialty", "slug": "caffe-specialty" },
-      "brand": { "id": 1, "name": "illy", "slug": "illy" },
-      "createdAt": "2025-01-15T10:00:00Z"
-    }
-  ],
-  "totalElements": 42,
-  "totalPages": 4,
-  "number": 0,
-  "size": 12
-}
-```
-
----
-
-### Prodotto per slug
-
-```
-GET /v1/products/{slug}
-```
-
-**Response:** oggetto `Product` (come sopra, singolo elemento)
-
-**404** se non trovato.
-
----
-
-### Prodotti in evidenza
-
-```
-GET /v1/products/featured
-```
-
-**Response:** array di `Product` con `featured: true`
-
----
-
-### Ricerca prodotti
-
-```
-GET /v1/products/search?q={query}&page=0&size=12&sort=name
-```
-
-**Query parameters:**
-
-| Param | Tipo | Descrizione |
-|-------|------|-------------|
-| `q` | string | Testo da cercare (nome, descrizione) |
-| `page` | integer | Numero pagina |
-| `size` | integer | Elementi per pagina |
-| `sort` | string | Ordinamento |
-
-**Response:** `PagedResponse<Product>`
-
----
-
-### Prodotti per categoria
-
-```
-GET /v1/products/by-category/{categorySlug}?page=0&size=12&sort=name
-```
-
-**Response:** `PagedResponse<Product>`
-
----
-
-### Prodotti per brand
-
-```
-GET /v1/products/by-brand/{brandSlug}?page=0&size=12&sort=name
-```
-
-**Response:** `PagedResponse<Product>`
-
----
-
-## Categorie
-
-### Lista categorie
-
-```
-GET /v1/categories
-```
-
-**Response:**
-```json
-[
-  {
-    "id": 1,
-    "name": "Caffè Specialty",
-    "slug": "caffe-specialty",
-    "description": "...",
-    "productCount": 12
-  }
-]
-```
-
----
-
-## Brand
-
-### Lista brand
-
-```
-GET /v1/brands
-```
-
-**Response:**
-```json
-[
-  {
-    "id": 1,
-    "name": "illy",
-    "slug": "illy",
-    "description": "...",
-    "logoUrl": "https://...",
-    "productCount": 8
-  }
-]
-```
-
----
-
-### Brand per slug
-
-```
-GET /v1/brands/{slug}
-```
-
-**Response:** oggetto `Brand` singolo + lista prodotti del brand.
-
----
-
-## Pagine CMS
-
-### Pagina per slug
-
-```
-GET /v1/pages/{slug}
-```
-
-Slugs disponibili: `chi-siamo`, ecc.
-
-**Response:**
-```json
-{
-  "id": 1,
-  "slug": "chi-siamo",
-  "title": "Chi Siamo",
-  "content": "<p>HTML del contenuto...</p>",
-  "metaDescription": "...",
-  "updatedAt": "2025-01-15T10:00:00Z"
-}
-```
-
-**404** se non trovato (il frontend usa un fallback statico).
-
----
-
-## Contatti
-
-### Form contatti
-
-```
-POST /v1/contact
+```http
+Authorization: Bearer <accessToken>
 Content-Type: application/json
 ```
 
-**Request body:**
-```json
-{
-  "fullName": "Mario Rossi",
-  "email": "mario@example.com",
-  "phone": "+39 333 1234567",
-  "subject": "Richiesta informazioni",
-  "message": "Vorrei sapere...",
-  "contactType": "INFO"
-}
-```
+### Formato risposta standard
 
-**contactType:** `INFO`, `PREVENTIVO`, `ASSISTENZA`, `ALTRO`
-
-**Response 200:**
 ```json
 {
   "success": true,
-  "message": "Richiesta inviata con successo"
+  "message": "Operazione completata",
+  "data": { ... }
 }
 ```
 
-**Effetti collaterali:**
-- Salva la richiesta nel DB (tabella `contact_requests`)
-- Invia email di notifica a `NOTIFICATION_EMAIL`
+### Ruoli disponibili
+
+| Ruolo | Accesso |
+|-------|---------|
+| `SUPER_ADMIN` | Tutto — utenti, import, audit |
+| `STORE_MANAGER` | CRM, fatture, magazzino, prodotti |
+| `EMPLOYEE` | Solo lettura dashboard e catalogo |
 
 ---
 
-### Richiesta assistenza tecnica
+## 🔐 Auth
+
+### `POST /v1/auth/login`
+```json
+// Request
+{ "username": "admin", "password": "admin123" }
+
+// Response 200
+{
+  "data": {
+    "accessToken": "eyJhbGci...",
+    "tokenType": "Bearer",
+    "expiresIn": 900,
+    "username": "admin",
+    "fullName": "Administrator",
+    "email": "admin@espressamente.eu",
+    "role": "SUPER_ADMIN",
+    "storeId": null,
+    "storeName": null
+  }
+}
+
+// Response 401 — credenziali errate
+// Response 423 — account bloccato (5 tentativi falliti)
+// Response 429 — IP bloccato (10 tentativi in 15 min)
+```
+
+### `POST /v1/auth/forgot-password`
+```json
+{ "email": "admin@espressamente.eu" }
+// Risposta sempre 200 (non rivela se l'email esiste)
+// Email inviata con token valido 30 min
+```
+
+### `POST /v1/auth/reset-password`
+```json
+{ "token": "uuid-token", "newPassword": "NuovaPassword123!" }
+```
+
+---
+
+## ☕ Prodotti (Pubblico)
+
+| Metodo | Endpoint | Descrizione |
+|--------|----------|-------------|
+| GET | `/v1/products` | Lista paginata. Query: `type`, `page`, `size` |
+| GET | `/v1/products/featured` | Prodotti in evidenza |
+| GET | `/v1/products/search?q=...` | Ricerca full-text |
+| GET | `/v1/products/by-category/{slug}` | Per categoria |
+| GET | `/v1/products/by-brand/{slug}` | Per brand |
+| GET | `/v1/products/{slug}` | Dettaglio prodotto |
+
+### Tipi prodotto (`productType`)
+`CAFFE` | `MACCHINA` | `ACCESSORIO`
+
+---
+
+## 🏷️ Categorie & Brand (Pubblico)
 
 ```
-POST /v1/service-request
-Content-Type: application/json
+GET /v1/categories          Lista categorie
+GET /v1/categories/{slug}   Dettaglio
+GET /v1/brands              Lista brand
+GET /v1/brands/{slug}       Dettaglio
 ```
 
-**Request body:**
+---
+
+## 📄 CMS Pagine (Pubblico)
+
+```
+GET /v1/pages               Solo pagine published=true
+GET /v1/pages/{slug}        Dettaglio (solo se published)
+```
+
+---
+
+## 📬 Form Pubblici
+
+### `POST /v1/contact`
 ```json
 {
   "fullName": "Mario Rossi",
   "email": "mario@example.com",
   "phone": "+39 333 1234567",
+  "companyName": "Bar Roma",
+  "subject": "Informazioni",
+  "message": "...",
+  "contactType": "GENERALE",
+  "privacyConsent": true
+}
+```
+
+### `POST /v1/service-request`
+```json
+{
+  "fullName": "Mario Rossi",
+  "email": "mario@example.com",
+  "phone": "+39 333 1234567",
+  "machineType": "Automatica",
   "machineBrand": "De'Longhi",
-  "machineModel": "Magnifica Start",
-  "purchaseYear": 2022,
-  "issueDescription": "La macchina non scalda...",
-  "urgency": "NORMALE"
+  "machineModel": "Magnifica S",
+  "issueDescription": "...",
+  "preferredDate": "2026-04-01",
+  "privacyConsent": true
 }
 ```
 
-**Response 200:**
+### `POST /v1/comodato`
 ```json
 {
-  "success": true,
-  "message": "Richiesta assistenza inviata"
+  "clientType": "AZIENDA",
+  "vatNumber": "IT01234567890",
+  "fullName": "Mario Rossi",
+  "email": "mario@example.com",
+  "phone": "+39 333 1234567",
+  "companyName": "Bar Roma Srl",
+  "address": "Via Roma 1",
+  "city": "Roma",
+  "province": "RM",
+  "machineName": "De'Longhi Magnifica S",
+  "deliveryType": "CONSEGNA",
+  "privacyConsent": true
 }
 ```
 
 ---
 
-## Tipi e Enum
+## 📊 Admin — Dashboard
 
-### ProductType
 ```
-CAFFE       - Prodotti caffè
-MACCHINA    - Macchine per caffè
-ACCESSORIO  - Accessori
-```
-
-### ContactType
-```
-INFO         - Richiesta informazioni
-PREVENTIVO   - Richiesta preventivo
-ASSISTENZA   - Assistenza tecnica
-ALTRO        - Altro
-```
-
-### RequestStatus
-```
-NUOVO         - Appena ricevuta
-IN_LAVORAZIONE - In gestione
-COMPLETATO    - Gestita
-ARCHIVIATO    - Archiviata
+GET  /v1/admin/stats                         Statistiche generali
+POST /v1/admin/upload                        Upload immagine (multipart, field: file, max 10MB)
+GET  /v1/admin/audit?page=0&size=50          Audit log (SUPER_ADMIN)
+PUT  /v1/admin/settings/password             Cambio password
 ```
 
 ---
 
-## Errori
+## 🛍️ Admin — Prodotti `(SUPER_ADMIN)`
 
-Tutti gli errori usano il formato standard:
+| Metodo | Endpoint | Body |
+|--------|----------|------|
+| GET | `/v1/admin/products` | — |
+| POST | `/v1/admin/products` | ProductRequest |
+| PUT | `/v1/admin/products/{id}` | ProductRequest |
+| DELETE | `/v1/admin/products/{id}` | — |
 
 ```json
+// ProductRequest
 {
-  "timestamp": "2025-01-15T10:00:00Z",
-  "status": 404,
-  "error": "Not Found",
-  "message": "Product not found with slug: xyz",
-  "path": "/api/v1/products/xyz"
+  "sku": "CAF-001",
+  "name": "Arabica Colombia",
+  "shortDescription": "...",
+  "description": "<p>HTML...</p>",
+  "productType": "CAFFE",
+  "price": 12.90,
+  "priceLabel": "250g",
+  "categoryId": 1,
+  "brandId": 1,
+  "images": ["/api/uploads/img.jpg"],
+  "features": [{ "label": "Origine", "value": "Colombia" }],
+  "isFeatured": false,
+  "isActive": true,
+  "sortOrder": 0
 }
 ```
 
-| Status | Significato |
+---
+
+## 👥 Admin — CRM Clienti `(SUPER_ADMIN, STORE_MANAGER)`
+
+| Metodo | Endpoint | Note |
+|--------|----------|------|
+| GET | `/v1/admin/customers?search=&clientType=&page=0&size=20` | Ricerca in-memory post-decrypt |
+| GET | `/v1/admin/customers/{id}` | |
+| POST | `/v1/admin/customers` | |
+| PUT | `/v1/admin/customers/{id}` | |
+| DELETE | `/v1/admin/customers/{id}` | |
+| GET | `/v1/admin/customers/{id}/interactions` | |
+| POST | `/v1/admin/customers/{id}/interactions` | |
+| DELETE | `/v1/admin/customers/{id}/interactions/{iid}` | |
+
+> **Nota:** I campi `fullName`, `email`, `phone` sono cifrati AES-256-GCM nel DB. La ricerca avviene in-memory dopo decrypt.
+
+---
+
+## 🧾 Admin — Fatture `(SUPER_ADMIN, STORE_MANAGER)`
+
+| Metodo | Endpoint | Note |
+|--------|----------|------|
+| GET | `/v1/admin/invoices` | Filtri: status, search, dateFrom, dateTo |
+| GET | `/v1/admin/invoices/{id}` | |
+| POST | `/v1/admin/invoices` | |
+| PUT | `/v1/admin/invoices/{id}` | |
+| PATCH | `/v1/admin/invoices/{id}/status?status=INVIATA` | |
+| DELETE | `/v1/admin/invoices/{id}` | |
+| GET | `/v1/admin/invoices/{id}/pdf` | Ritorna PDF binary |
+| POST | `/v1/admin/invoices/{id}/send-email` | Invia PDF al cliente |
+| GET | `/v1/admin/invoices/export/csv` | Export CSV |
+
+### Ciclo stati fattura
+```
+BOZZA → INVIATA → PAGATA
+              ↓
+           SCADUTA
+BOZZA/INVIATA → ANNULLATA
+```
+
+> Al pagamento (`PAGATA`) viene creata automaticamente una registrazione ENTRATA in Contabilità e uno SCARICO in Magazzino.
+
+---
+
+## 💰 Admin — Contabilità `(SUPER_ADMIN, STORE_MANAGER)`
+
+```
+GET  /v1/admin/accounting                           Lista con filtri
+GET  /v1/admin/accounting/summary?from=&to=         Riepilogo totali
+GET  /v1/admin/accounting/profit-loss?from=&to=     Conto economico
+GET  /v1/admin/accounting/export/csv                Export CSV
+POST /v1/admin/accounting                           Nuova registrazione
+PUT  /v1/admin/accounting/{id}
+DELETE /v1/admin/accounting/{id}
+```
+
+---
+
+## 📦 Admin — Magazzino `(SUPER_ADMIN, STORE_MANAGER)`
+
+```
+GET  /v1/admin/warehouse/stock                  Giacenze correnti
+GET  /v1/admin/warehouse/low-stock              Prodotti sotto soglia
+GET  /v1/admin/warehouse/movements?productId=   Storico movimenti
+POST /v1/admin/warehouse/adjust                 Movimento manuale
+POST /v1/admin/warehouse/import                 Import bulk CSV/XLSX (SUPER_ADMIN)
+```
+
+### Tipi movimento (`movementType`)
+`CARICO` | `SCARICO` | `RETTIFICA` | `VENDITA` | `RESO`
+
+### Formato CSV import
+```csv
+sku,quantity,reorderPoint
+CAF-001,100,10
+MAC-001,5,2
+```
+
+---
+
+## 👤 Admin — Dipendenti `(SUPER_ADMIN)`
+
+```
+GET    /v1/admin/users
+GET    /v1/admin/users/{id}
+POST   /v1/admin/users
+PUT    /v1/admin/users/{id}
+PATCH  /v1/admin/users/{id}/toggle-active
+GET    /v1/admin/users/stores
+```
+
+---
+
+## 📥 Admin — Richieste
+
+```
+GET   /v1/admin/contacts?status=&page=0                    Lista contatti
+PATCH /v1/admin/contacts/{id}/status?status=IN_PROGRESS    Cambia stato
+
+GET   /v1/admin/service-requests?page=0                    Lista assistenza
+PATCH /v1/admin/service-requests/{id}/status?status=...    Cambia stato
+
+GET   /v1/admin/comodato?status=&page=0                    Lista comodato
+GET   /v1/admin/comodato/{id}                              Dettaglio
+PATCH /v1/admin/comodato/{id}/status?status=...&internalNotes=...
+```
+
+### Valori stato (`RequestStatus`)
+`PENDING` | `IN_PROGRESS` | `COMPLETED` | `CLOSED`
+
+---
+
+## Codici di errore
+
+| Codice | Significato |
 |--------|-------------|
-| 200 | OK |
-| 400 | Bad Request (validazione fallita) |
-| 404 | Not Found |
-| 500 | Internal Server Error |
+| 400 | Validazione fallita (campo mancante o non valido) |
+| 401 | Token mancante, scaduto o credenziali errate |
+| 403 | Ruolo non sufficiente |
+| 404 | Risorsa non trovata |
+| 409 | Conflitto (es. SKU duplicato) |
+| 423 | Account bloccato (troppi tentativi falliti) |
+| 429 | IP bloccato per brute force |
+| 500 | Errore server interno |
 
 ---
 
-## Admin Endpoints (Autenticati)
+## Note di sicurezza
 
-> Richiedono `Authorization: Bearer <jwt>`
-
-### Prodotti
-
-```
-POST   /v1/admin/products          # Crea prodotto
-PUT    /v1/admin/products/{id}     # Aggiorna prodotto
-DELETE /v1/admin/products/{id}     # Soft delete
-```
-
-### Dashboard
-
-```
-GET /v1/admin/dashboard    # Statistiche: prodotti, richieste, ecc.
-```
-
----
-
-## Note CORS
-
-Gli endpoint API accettano richieste da:
-- `http://localhost:3010` (sviluppo)
-- `https://espressamente.eu` (produzione)
-- `https://stg.espressamente.eu` (staging)
-
-Configurato tramite `CORS_ORIGINS` nel backend.
+- **Access token:** 15 minuti, trasmesso nell'header `Authorization: Bearer`
+- **Refresh token:** 7 giorni, httpOnly cookie, ruotato ad ogni refresh
+- **Brute force:** 5 tentativi/15min per username, 10 per IP → lockout + email alert admin
+- **Campi cifrati:** fullName, email, phone, address nei modelli Customer/Contact/Service/Comodato (AES-256-GCM)
+- **CORS:** configurato per i domini `espressamente.eu` e `stg.espressamente.eu`
