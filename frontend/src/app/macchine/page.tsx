@@ -4,7 +4,7 @@ import { api } from "@/lib/api";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { FilterBar } from "@/components/products/FilterBar";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 import { SortDropdown } from "@/components/products/SortDropdown";
 import { Pagination } from "@/components/ui/Pagination";
 import { ProductCardSkeleton } from "@/components/ui/Skeleton";

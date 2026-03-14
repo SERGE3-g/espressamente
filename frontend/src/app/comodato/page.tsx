@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     "Ottieni una macchina da caffè professionale in comodato gratuito. Consegna a domicilio, assistenza inclusa, nessun costo fisso.",
 };
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const vantaggi = [
   {

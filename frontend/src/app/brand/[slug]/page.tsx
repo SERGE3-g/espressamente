@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 import { api } from "@/lib/api";
 import { ProductGrid } from "@/components/products/ProductGrid";
 import { MotionSection } from "@/components/ui/MotionWrapper";
