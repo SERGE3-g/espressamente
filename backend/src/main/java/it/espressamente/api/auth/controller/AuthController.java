@@ -19,10 +19,12 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -289,6 +291,70 @@ public class AuthController {
                 "Password reimpostata per: " + user.getUsername() + " da IP: " + ip);
 
         return ResponseEntity.ok(ApiResponse.ok(null));
+    }
+
+    // ── POST /v1/auth/token  (OAuth 2.0 Password Grant — per Postman/client) ───
+    // Accetta: application/x-www-form-urlencoded
+    //   grant_type=password&username=admin&password=...
+    // Risponde con standard OAuth 2.0 token response
+    @PostMapping(value = "/token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public ResponseEntity<?> token(
+            @RequestParam MultiValueMap<String, String> params,
+            HttpServletRequest httpRequest,
+            HttpServletResponse httpResponse) {
+
+        String grantType = params.getFirst("grant_type");
+        if (!"password".equals(grantType)) {
+            return ResponseEntity.badRequest()
+                    .body(java.util.Map.of("error", "unsupported_grant_type",
+                            "error_description", "Only 'password' grant_type is supported"));
+        }
+
+        String username = params.getFirst("username");
+        String password = params.getFirst("password");
+        String ip = httpRequest.getRemoteAddr();
+
+        // Riusa la stessa logica brute-force del login normale
+        LoginAttempts userAttempts = failedByUsername.get(username);
+        if (userAttempts != null && !userAttempts.isExpired() && userAttempts.isLockedForUser()) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body(java.util.Map.of("error", "access_denied",
+                            "error_description", "Account temporaneamente bloccato. Riprova tra 15 minuti."));
+        }
+
+        try {
+            authManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        } catch (BadCredentialsException e) {
+            failedByUsername.merge(username,
+                    new LoginAttempts(1, Instant.now(), false),
+                    (ex, nv) -> ex.isExpired() ? nv : ex.increment());
+            failedByIp.merge(ip,
+                    new LoginAttempts(1, Instant.now(), false),
+                    (ex, nv) -> ex.isExpired() ? nv : ex.increment());
+            auditService.log("LOGIN_FAILED", "AUTH", null,
+                    "OAuth token: tentativo fallito per " + username + " da IP: " + ip);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(java.util.Map.of("error", "invalid_client",
+                            "error_description", "Credenziali non valide"));
+        }
+
+        failedByUsername.remove(username);
+
+        AdminUser user = adminUserRepository.findByUsername(username).orElseThrow();
+        String accessToken = jwtService.generateToken(user.getUsername(), user.getRole().name());
+        RefreshToken refreshToken = refreshTokenService.create(user, ip, httpRequest.getHeader("User-Agent"));
+        setRefreshCookie(httpResponse, refreshToken.getToken());
+
+        auditService.log("LOGIN_SUCCESS", "AUTH", null,
+                "OAuth token: login riuscito per " + username + " da IP: " + ip);
+
+        // Risposta standard OAuth 2.0
+        return ResponseEntity.ok(java.util.Map.of(
+                "access_token", accessToken,
+                "token_type", "Bearer",
+                "expires_in", jwtService.getExpirationMs() / 1000,
+                "scope", user.getRole().name()
+        ));
     }
 
     // ── Helpers ────────────────────────────────────────────────────────────────
