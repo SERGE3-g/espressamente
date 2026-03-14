@@ -55,7 +55,6 @@ export function ComodatoForm({ machines }: Props) {
     handleSubmit,
     watch,
     setValue,
-    reset,
     formState: { errors, isSubmitting },
   } = useForm<FormData>({
     resolver: zodResolver(schema),

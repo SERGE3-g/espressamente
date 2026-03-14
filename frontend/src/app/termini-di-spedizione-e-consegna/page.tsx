@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { MotionSection } from "@/components/ui/MotionWrapper";
-import { Truck, Package, RotateCcw, ShieldCheck, Clock, MapPin } from "lucide-react";
+import { Truck, RotateCcw, ShieldCheck, Clock, MapPin } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Termini di Spedizione e Consegna — Espressamente",
